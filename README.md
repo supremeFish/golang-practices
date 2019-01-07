@@ -131,6 +131,7 @@ func checkError(err error) {
 
 ## Compare the Triplets
 > Alice and Bob each created one problem for HackerRank. A reviewer rates the two challenges, awarding points on a scale from  to  for three categories: problem clarity, originality, and difficulty.
+>
 > **Function Description**
 >
 > Complete the function compareTriplets in the editor below. It must return an array of two integers, the first being Alice's score and the second being Bob's.
