@@ -4,6 +4,7 @@
 - [Solve Me First](#solve-me-first)
 - [Simple Array Sum](#simple-array-sum)
 - [Compare the Triplets](#compare-the-triplets)
+- [Day of the Programmer](#day-of-the-programmer)
 
 ## Solve Me First
 
@@ -220,6 +221,92 @@ func main() {
     }
 
     fmt.Fprintf(writer, "\n")
+
+    writer.Flush()
+}
+
+func readLine(reader *bufio.Reader) string {
+    str, _, err := reader.ReadLine()
+    if err == io.EOF {
+        return ""
+    }
+
+    return strings.TrimRight(string(str), "\r\n")
+}
+
+func checkError(err error) {
+    if err != nil {
+        panic(err)
+    }
+}
+```
+
+## Day of the Programmer
+
+> Marie invented a Time Machine and wants to test it by time-traveling to visit Russia on the Day of the Programmer (the 256th day of the year) during a year in the inclusive range from 1700 to 2700.
+>
+> From 1700 to 1917, Russia's official calendar was the Julian calendar; since 1919 they used the Gregorian calendar system. The transition from the Julian to Gregorian calendar system occurred in 1918, when the next day after January 31st was February 14th. This means that in 1918, February 14th was the 32nd day of the year in Russia.
+>
+> **Function Description**
+>
+> Complete the dayOfProgrammer function in the editor below. It should return a string representing the date of the 256th day of the year given.
+>
+> dayOfProgrammer has the following parameter(s):
+>
+> - year: an integer
+
+> **Input Format**
+> 
+> A single integer denoting year .
+>
+> **Output Format**
+>
+> Print the full date of Day of the Programmer during year y in the format dd.mm.yyyy, where dd is the two-digit day, mm is the two-digit month, and yyyy is y.
+
+**solution:**
+
+```golang
+package main
+
+import (
+    "bufio"
+    "fmt"
+    "io"
+    "os"
+    "strconv"
+    "strings"
+)
+
+func dayOfProgrammer(year int32) string {
+    febDays := 13
+    if year == 1918 {
+        febDays += 13
+    } else if year < 1918 && year % 4 == 0 {
+        febDays -= 1
+    } else if year % 400 == 0 || (year % 4 == 0 && year % 100 != 0) {
+        febDays -= 1
+    }
+
+    return strconv.Itoa(febDays) + ".09." + strconv.Itoa(int(year))
+}
+
+func main() {
+    reader := bufio.NewReaderSize(os.Stdin, 16 * 1024 * 1024)
+
+    stdout, err := os.Create(os.Getenv("OUTPUT_PATH"))
+    checkError(err)
+
+    defer stdout.Close()
+
+    writer := bufio.NewWriterSize(stdout, 16 * 1024 * 1024)
+
+    yearTemp, err := strconv.ParseInt(strings.TrimSpace(readLine(reader)), 10, 64)
+    checkError(err)
+    year := int32(yearTemp)
+
+    result := dayOfProgrammer(year)
+
+    fmt.Fprintf(writer, "%s\n", result)
 
     writer.Flush()
 }
